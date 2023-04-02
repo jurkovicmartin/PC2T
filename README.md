@@ -1,4 +1,4 @@
-# PC2T
+# Projekt
 Představte si, že vytváříte program pro správu seznamu filmů. Každý film má název, režiséra, rok
 vydání, seznam herců a hodnocení diváků (skládá se z bodového hodnocení a případně slovního
 komentáře). Existují dva druhy filmů:

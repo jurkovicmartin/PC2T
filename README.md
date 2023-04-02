@@ -7,8 +7,7 @@ počtu hvězdiček od 1 do 5.
 - b) Animované filmy – tyto filmy mají místo seznamu herců několik animátorů a bodové
 hodnocení diváků se vyjadřuje pomocí kladného čísla od 1 do 10. Navíc obsahují
 doporučený věk diváka.
-Vytvořte v programovacím jazyce Java ve vývojovém prostředí Eclipse program, který umožní uživateli
-následující funkce:
+# Program
 - a) Přidání nového filmu – uživatel vybere druh filmu, zadá název, režiséra, rok vydání a případně
 seznam herců nebo animátorů. Pokud jde o animovaný film, uživatel zadá kromě názvu, režiséra a roku
 vydání také doporučený věk diváka.
@@ -30,8 +29,3 @@ nebo animátora a zobrazí se mu seznam filmů, ve kterých hrál nebo na který
 - j) Načtení všech informací o daném filmu ze souboru (soubor obsahuje vždy jeden film)
 - k) Při ukončení programu se uloží veškeré informace do SQL databáze.
 - l) Při spuštění programu se veškeré informace načtou z SQL databáze.
-Pozn. SQL databáze bude využívána pouze při spuštění a ukončení programu.
-Program musí dále obsahovat následující:
-- Efektivní využití základních vlastností OOP.
-- Alespoň jednu abstraktní třídu nebo rozhraní
-- Alespoň jednu dynamickou datovou strukturu 

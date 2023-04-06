@@ -1,0 +1,35 @@
+package ProjectFilms;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) {
+		
+		Films.Films.add(new FeatureFilm("Puss in boots", "Banderas", 2023));
+		Films.Films.add(new FeatureFilm("Transformers", "Michael Bay", 2000));
+		
+		List<String> actors = new ArrayList<String>();
+		actors.add("Silvester Stalone");
+		actors.add("Micheal B Jordan");
+		Films.Films.add(new FeatureFilm("Creed", "Rony", 2014, actors));
+		
+		for(Films film : Films.Films) {
+			System.out.println(film);
+		}
+		
+		System.out.println();
+		Films.editDirector("Puss in boots", "Orlando");
+		
+		for(Films film : Films.Films) {
+			System.out.println(film);
+		}
+		
+		System.out.println();
+		System.out.println(FeatureFilm.getActors("Creed"));
+		FeatureFilm.editActors("add", "Creed", "Arnold");
+	}
+
+}

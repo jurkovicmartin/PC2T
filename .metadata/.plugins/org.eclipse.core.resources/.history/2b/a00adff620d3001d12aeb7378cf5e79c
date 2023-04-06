@@ -1,0 +1,11 @@
+package ProjectFilms;
+
+import java.util.Collection;
+
+public abstract class Films {
+
+	private Collection<String, String, Integer> films = new Collection<String, String, Integer>;
+	
+	abstract void addRating(int points);
+	abstract void addRating(int points, String comment);
+}

@@ -1,0 +1,90 @@
+package ProjectFilms;
+
+import java.util.List;
+
+public class FeatureFilm extends Films{
+
+	class Rating{
+		private int points;
+		private String comment;
+		
+		Rating(int points){
+			this.points = points;
+		}
+		Rating(int points, String comment){
+			this.points = points;
+			this.comment = comment;
+		}
+	}
+	
+	private List<String> actors;
+	private List<Rating> rating;
+	// vytvoreni filmu s herci
+	FeatureFilm(String name, String director, int year, List<String> actors){
+		super.name = name;
+		super.director = director;
+		super.year = year;
+		this.actors = actors;
+		rating = null;
+		
+	}
+	
+	// vytvoreni filmu bez hercu
+	FeatureFilm(String name, String director, int year){
+		super.name = name;
+		super.director = director;
+		super.year = year;
+		actors = null;
+		rating=null;
+	}
+
+	public static void addRating(String filmName, int points) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				((FeatureFilm)film).rating
+				return;
+			}	
+		}
+	}
+
+
+	public static void addRating(String filmName, int points, String comment) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				((FeatureFilm)film).ratingPoints = points;
+				((FeatureFilm)film).ratingComment = comment;
+				return;
+			}	
+		}
+	}
+	
+	@Override
+	public String toString() {
+		if(actors == null)
+			return "Film: " + name + ", Director: " + director + ", Year: " + year + "\nActors: " + "Actors have not been inputed.";
+		return "Film: " + name + ", Director: " + director + ", Year: " + year + "\nActors: " + actors;
+	}
+	
+	public static List<String> getActors(String filmName) {
+		for(Films film : Films) {
+			if(film.name == filmName)
+				return ((FeatureFilm)film).actors;
+		}
+		return null;
+	}
+	
+	public static void editActors(String action, String filmName, String actorName) {
+		for(Films film : Films) {
+			if(film.name == filmName)
+				if(action == "add") {
+					((FeatureFilm)film).actors.add(actorName);
+					return;
+				}
+				else if (action == "delete") {
+					((FeatureFilm)film).actors.remove(actorName);
+					return;
+				}
+		}
+		
+	}
+}

@@ -1,0 +1,9 @@
+package ProjectFilms;
+
+import java.util.List;
+
+public class Actors {
+
+	private String name;
+	private List<String> films;
+}

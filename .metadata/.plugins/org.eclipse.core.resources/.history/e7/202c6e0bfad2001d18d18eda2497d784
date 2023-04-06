@@ -1,0 +1,14 @@
+package ProjectFilms;
+
+import java.util.List;
+
+public class Actors {
+
+	private String name;
+	private List<String> films;
+	
+	Actors(String name, String film){
+		this.name = name;
+		films.add(film);
+	}
+}

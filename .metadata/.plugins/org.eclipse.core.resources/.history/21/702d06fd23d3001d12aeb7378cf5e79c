@@ -1,0 +1,36 @@
+package ProjectFilms;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public abstract class Films {
+	
+	protected String name;
+	protected String director;
+	protected int year;
+	public static List<Films> Films = new ArrayList<Films>();
+	
+	public void editName(String name) {
+		this.name = name;
+	}
+	
+	public void editDirector(String director) {
+		this.director = director;
+	}
+	
+	public void editYear(int year) {
+		this.year = year;
+	}
+	
+	public static void addFilm(Films film) {
+		Films.add(film);
+	}
+	
+	public static void removeFilm(Films film) {
+		Films.remove(film);
+	}
+	
+	abstract void addRating(int points);
+	abstract void addRating(int points, String comment);
+}

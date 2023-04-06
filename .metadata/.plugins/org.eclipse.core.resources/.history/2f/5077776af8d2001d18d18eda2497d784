@@ -1,0 +1,10 @@
+package ProjectFilms;
+
+import java.util.List;
+
+public class Animated extends Films {
+	
+	private List<String> animators;
+	private int ratingPoints;
+	private String ratingComment;
+}

@@ -1,0 +1,22 @@
+package ProjectFilms;
+
+import java.util.List;
+
+public class Actor {
+	
+	private String name;
+	private List<Films> films;
+	
+	// novy herec
+	Actor(String actorName){
+		name = actorName;
+	}
+	
+	public String getActorName() {
+		return name;
+	}
+	
+	public void addActorFilm(Films film) {
+		films.add(film);
+	}
+}

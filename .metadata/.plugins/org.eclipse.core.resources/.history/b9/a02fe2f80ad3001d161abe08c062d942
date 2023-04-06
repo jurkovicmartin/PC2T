@@ -1,0 +1,14 @@
+package ProjectFilms;
+
+public class Program {
+
+	public static void main(String[] args) {
+		
+		FeatureFilm Transformers = new FeatureFilm("Transformers", "Michael Bay", 2000);
+		Films.AddFilm(Transformers);
+		
+		System.out.println(Films.Films.get(0).name);
+		System.out.println(Transformers);
+	}
+
+}

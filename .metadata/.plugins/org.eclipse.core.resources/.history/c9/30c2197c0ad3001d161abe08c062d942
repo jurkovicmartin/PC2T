@@ -1,0 +1,40 @@
+package ProjectFilms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Films {
+
+	protected String name;
+	protected String director;
+	protected int year;
+	public static List<Films> Films = new ArrayList<Films>();
+	
+	public void EditName(String name) {
+		this.name = name;
+	}
+	
+	public void EditDirector(String director) {
+		this.director = director;
+	}
+	
+	public void EditYear(int year) {
+		this.year = year;
+	}
+	
+	public static void AddFilm(Films film) {
+		Films.add(film);
+	}
+	
+	public static void RemoveFilm(Films film) {
+		Films.remove(film);
+	}
+	
+	abstract void addRating(int points);
+	abstract void addRating(int points, String comment);
+	
+	@Override
+	public static String ToString() {
+		return "Film: " + Films.get(0).name + ", Director: " + Films.get(0).director + ", Year: " + Films.get(0).year;
+	}
+}

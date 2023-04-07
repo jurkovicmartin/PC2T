@@ -1,22 +1,10 @@
 package ProjectFilms;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FeatureFilm extends Films{
-
-	class Rating{
-		private int points;
-		private String comment;
-		
-		Rating(int points){
-			this.points = points;
-		}
-		Rating(int points, String comment){
-			this.points = points;
-			this.comment = comment;
-		}
-	}
 	
 	private List<Actor> actors;
 	private List<Rating> rating;
@@ -31,12 +19,8 @@ public class FeatureFilm extends Films{
 		rating = new ArrayList<Rating>();
 	}
 	
-	FeatureFilm(){
-		
-	}
-	
 	//pridani hodnoceni bez komentare
-	public void addRating(String filmName, int points) {
+	public static void addRating(String filmName, int points) {
 		for(Films film : Films) {
 			if(film.name == filmName) {
 				((FeatureFilm)film).rating.add(new Rating(points));
@@ -46,7 +30,7 @@ public class FeatureFilm extends Films{
 	}
 
 	//pridani hodnoceni s komentarem
-	public void addRating(String filmName, int points, String comment) {
+	public static void addRating(String filmName, int points, String comment) {
 		for(Films film : Films) {
 			if(film.name == filmName) {
 				((FeatureFilm)film).rating.add(new Rating(points, comment));
@@ -55,12 +39,22 @@ public class FeatureFilm extends Films{
 		}
 	}
 	
-	@Override
-	public String toString() {
-		return "Film: " + name + ", Director: " + director + ", Year: " + year + "\nActors: " + actors;
+	public static List<Rating> getRatings(String filmName) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				Collections.sort(((FeatureFilm)film).rating);
+				return ((FeatureFilm)film).rating;
+			}
+		}
+		return null;
 	}
 	
-	public void addActor(String filmName, String actorName) {
+	@Override
+	public String toString() {
+		return "\nFilm: " + name + ", Director: " + director + ", Year: " + year + "\nActors: " + actors;
+	}
+	
+	public static void addActor(String filmName, String actorName) {
 		if(allActors == null) {
 			allActors.add(new Actor(actorName));
 		}
@@ -95,7 +89,7 @@ public class FeatureFilm extends Films{
 		}
 	}
 	
-	public void removeActor(String filmName, String actorName) {
+	public static void removeActor(String filmName, String actorName) {
 		Films tempFilm = null;
 		//najdu si film
 		for(Films film : Films) {
@@ -117,11 +111,15 @@ public class FeatureFilm extends Films{
 				}
 	}
 	
-	public List<Actor> getActors(String filmName) {
+	public static List<Actor> getActors(String filmName) {
 		for(Films film : Films) {
 			if(film.name == filmName)
 				return ((FeatureFilm)film).actors;
 		}
 		return null;
+	}
+	
+	public static List<Actor> getAllActors(){
+		return allActors;
 	}
 }

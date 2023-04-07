@@ -30,4 +30,13 @@ public class Actor {
 	public String toString() {
 		return name;
 	}
+	
+	public static List<Films> getFilms(String actorName){
+		for(Actor actor : FeatureFilm.getAllActors()) {
+			if(actor.name == actorName) {
+				return actor.films;
+			}
+		}
+		return null;
+	}
 }

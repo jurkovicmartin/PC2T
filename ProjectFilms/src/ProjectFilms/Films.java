@@ -3,14 +3,14 @@ package ProjectFilms;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Films {
+public abstract class Films{
 	
 	protected String name;
 	protected String director;
 	protected int year;
 	public static List<Films> Films = new ArrayList<Films>();
 	
-	public void editName(String filmName, String newName) {
+	public static void editName(String filmName, String newName) {
 		for(Films film : Films) {
 			if(film.name == filmName) {
 				film.name = newName;
@@ -28,13 +28,22 @@ public abstract class Films {
 		}
 	}
 	
-	public void editYear(String filmName, int newYear) {
+	public static void editYear(String filmName, int newYear) {
 		for(Films film : Films) {
 			if(film.name == filmName) {
 				film.year = newYear;
 				return;
 			}
 		}
+	}
+	
+	public static Films findFilm(String filmName) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				return film;
+			}
+		}
+		return null;
 	}
 	
 }

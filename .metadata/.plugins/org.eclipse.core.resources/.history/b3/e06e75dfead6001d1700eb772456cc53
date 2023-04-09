@@ -1,0 +1,50 @@
+package ProjectFilms;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class AnimatedFilm extends Films {
+	
+	private List<Animator> animators;
+	private List<Rating> rating;
+	private int age;
+	private static List<Animator> allAnimators = new ArrayList<Animator>();
+	
+	AnimatedFilm(String name, String director, int year, int age){
+		super.name = name;
+		super.director = director;
+		super.year = year;
+		this.age = age;
+		animators = new ArrayList<Animator>();
+		rating = new ArrayList<Rating>();
+	}
+	
+	public static void addRating(String filmName, int points) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				((AnimatedFilm)film).rating.add(new Rating(points));
+				return;
+			}	
+		}
+	}
+	
+	public static void addRating(String filmName, int points, String comment) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				((AnimatedFilm)film).rating.add(new Rating(points, comment));
+				return;
+			}	
+		}
+	}
+	
+	public static List<Rating> getRatings(String filmName) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				Collections.sort(((AnimatedFilm)film).rating);
+				return ((AnimatedFilm)film).rating;
+			}
+		}
+		return null;
+	}
+}

@@ -1,0 +1,52 @@
+package ProjectFilms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Actor {
+	
+	private String name;
+	private List<Films> films;
+	
+	enum toStringAction{ OnlyName, NameWithFilms }
+	// novy herec
+	Actor(String actorName){
+		name = actorName;
+		films = new ArrayList<Films>();
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void addFilm(Films film) {
+		films.add(film);
+	}
+	
+	public void removeFilm(Films film) {
+		films.remove(film);
+	}
+	
+	public List<Films> getFilms(){
+		return films;
+	}
+	
+	@Override
+	public String toString(Actor.toStringAction action) {
+		if(action == Actor.toStringAction.OnlyName)
+			return name;
+		if(action == Actor.toStringAction.NameWithFilms) 
+			return name + "Films: " + films;
+		
+		return null;
+	}
+	
+	public static List<Films> getActorsFilms(String actorName){
+		for(Actor actor : FeatureFilm.getAllActors()) {
+			if(actor.name == actorName) {
+				return actor.films;
+			}
+		}
+		return null;
+	}
+}

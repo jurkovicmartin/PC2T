@@ -1,0 +1,11 @@
+package ProjectFilms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AnimatedFilm extends Films {
+	
+	private List<Animator> animators;
+	private List<Rating> rating;
+	private static List<Animator> allAnimators = new ArrayList<Animator>();
+}

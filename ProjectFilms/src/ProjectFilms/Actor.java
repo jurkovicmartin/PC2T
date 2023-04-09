@@ -14,24 +14,28 @@ public class Actor {
 		films = new ArrayList<Films>();
 	}
 	
-	public String getActorName() {
+	public String getName() {
 		return name;
 	}
 	
-	public void addActorFilm(Films film) {
+	public void addFilm(Films film) {
 		films.add(film);
 	}
 	
-	public void removeActorFilm(Films film) {
+	public void removeFilm(Films film) {
 		films.remove(film);
+	}
+	
+	public List<Films> getFilms(){
+		return films;
 	}
 	
 	@Override
 	public String toString() {
-		return name;
+			return name;
 	}
 	
-	public static List<Films> getFilms(String actorName){
+	public static List<Films> getActorsFilms(String actorName){
 		for(Actor actor : FeatureFilm.getAllActors()) {
 			if(actor.name == actorName) {
 				return actor.films;

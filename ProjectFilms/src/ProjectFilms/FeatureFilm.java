@@ -19,6 +19,18 @@ public class FeatureFilm extends Films{
 		rating = new ArrayList<Rating>();
 	}
 	
+	public static void removeFilm(String filmName) {
+		for(Films film : Films) {
+			if(film.name == filmName) {
+				for(Actor actor : ((FeatureFilm)film).actors) {
+					actor.removeFilm(film);
+				}
+				Films.remove(film);
+				return;
+			}	
+		}
+	}
+	
 	//pridani hodnoceni bez komentare
 	public static void addRating(String filmName, int points) {
 		for(Films film : Films) {
@@ -69,9 +81,9 @@ public class FeatureFilm extends Films{
 		//zjistim jestli tento herec s timto jmennem existuje
 		for(Actor actor : allActors) {
 			//pokud existuje najdu ho
-			if(actor.getActorName() == actorName) {
+			if(actor.getName() == actorName) {
 				((FeatureFilm)tempFilm).actors.add(actor);
-				actor.addActorFilm(tempFilm);
+				actor.addFilm(tempFilm);
 				return;
 			}
 		
@@ -80,9 +92,9 @@ public class FeatureFilm extends Films{
 		allActors.add(new Actor(actorName));
 		//pak jej najdu a udelam prirazeni
 		for(Actor actor : allActors) {
-			if(actor.getActorName() == actorName) {
+			if(actor.getName() == actorName) {
 				((FeatureFilm)tempFilm).actors.add(actor);
-				actor.addActorFilm(tempFilm);
+				actor.addFilm(tempFilm);
 				return;
 			}
 		
@@ -100,15 +112,15 @@ public class FeatureFilm extends Films{
 		}
 		
 		//zjistim jestli tento herec s timto jmennem existuje
-				for(Actor actor : allActors) {
-					//pokud existuje smazu ho
-					if(actor.getActorName() == actorName) {
-						((FeatureFilm)tempFilm).actors.remove(actor);
-						actor.removeActorFilm(tempFilm);
-						return;
-					}
-				
+		for(Actor actor : allActors) {
+			//pokud existuje smazu ho
+			if(actor.getName() == actorName) {
+				((FeatureFilm)tempFilm).actors.remove(actor);
+				actor.removeFilm(tempFilm);
+				return;
 				}
+				
+		}
 	}
 	
 	public static List<Actor> getActors(String filmName) {
@@ -122,4 +134,16 @@ public class FeatureFilm extends Films{
 	public static List<Actor> getAllActors(){
 		return allActors;
 	}
+	
+	//funguje jen z pulky, nevypise filmy toho herce
+	public static List<Actor> getActorsWithMoreThanOneFilm(){
+		List<Actor> tempList = new ArrayList<Actor>();
+		for(Actor actor : allActors) {
+			if(actor.getFilms().size() > 1) {
+				tempList.add(actor);
+			}
+		}
+		return tempList;
+	}
+
 }

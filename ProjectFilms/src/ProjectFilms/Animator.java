@@ -36,7 +36,7 @@ public class Animator {
 	
 	public static List<Films> getAnimatorsFilms(String animatorName){
 		for(Animator animator : AnimatedFilm.getAllAnimators()) {
-			if(animator.name == animatorName) {
+			if(animator.name.equals(animatorName)) {
 				return animator.films;
 			}
 		}

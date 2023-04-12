@@ -21,7 +21,7 @@ public class FeatureFilm extends Films{
 	
 	public static void removeFilm(String filmName) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				for(Actor actor : ((FeatureFilm)film).actors) {
 					actor.removeFilm(film);
 				}
@@ -34,7 +34,7 @@ public class FeatureFilm extends Films{
 	//pridani hodnoceni bez komentare
 	public static void addRating(String filmName, int points) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				((FeatureFilm)film).rating.add(new Rating(points));
 				return;
 			}	
@@ -44,7 +44,7 @@ public class FeatureFilm extends Films{
 	//pridani hodnoceni s komentarem
 	public static void addRating(String filmName, int points, String comment) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				((FeatureFilm)film).rating.add(new Rating(points, comment));
 				return;
 			}	
@@ -53,7 +53,7 @@ public class FeatureFilm extends Films{
 	
 	public static List<Rating> getRatings(String filmName) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				Collections.sort(((FeatureFilm)film).rating);
 				return ((FeatureFilm)film).rating;
 			}
@@ -67,13 +67,13 @@ public class FeatureFilm extends Films{
 	}
 	
 	public static void addActor(String filmName, String actorName) {
-		if(allActors == null) {
+		if(allActors.isEmpty()) {
 			allActors.add(new Actor(actorName));
 		}
 		Films tempFilm = null;
 		//najdu si film
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				tempFilm = film;
 				break;
 			}
@@ -81,7 +81,7 @@ public class FeatureFilm extends Films{
 		//zjistim jestli tento herec s timto jmennem existuje
 		for(Actor actor : allActors) {
 			//pokud existuje najdu ho
-			if(actor.getName() == actorName) {
+			if(actor.getName().equals(actorName)) {
 				((FeatureFilm)tempFilm).actors.add(actor);
 				actor.addFilm(tempFilm);
 				return;
@@ -92,7 +92,7 @@ public class FeatureFilm extends Films{
 		allActors.add(new Actor(actorName));
 		//pak jej najdu a udelam prirazeni
 		for(Actor actor : allActors) {
-			if(actor.getName() == actorName) {
+			if(actor.getName().equals(actorName)) {
 				((FeatureFilm)tempFilm).actors.add(actor);
 				actor.addFilm(tempFilm);
 				return;
@@ -105,7 +105,7 @@ public class FeatureFilm extends Films{
 		Films tempFilm = null;
 		//najdu si film
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				tempFilm = film;
 				break;
 			}
@@ -114,7 +114,7 @@ public class FeatureFilm extends Films{
 		//zjistim jestli tento herec s timto jmennem existuje
 		for(Actor actor : allActors) {
 			//pokud existuje smazu ho
-			if(actor.getName() == actorName) {
+			if(actor.getName().equals(actorName)) {
 				((FeatureFilm)tempFilm).actors.remove(actor);
 				actor.removeFilm(tempFilm);
 				return;
@@ -125,7 +125,7 @@ public class FeatureFilm extends Films{
 	
 	public static List<Actor> getActors(String filmName) {
 		for(Films film : Films) {
-			if(film.name == filmName)
+			if(film.name.equals(filmName))
 				return ((FeatureFilm)film).actors;
 		}
 		return null;

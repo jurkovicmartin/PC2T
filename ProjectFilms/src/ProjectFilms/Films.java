@@ -12,7 +12,7 @@ public abstract class Films{
 	
 	public static void editName(String filmName, String newName) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				film.name = newName;
 				return;
 			}
@@ -21,7 +21,7 @@ public abstract class Films{
 	
 	public static void editDirector(String filmName, String newDirector) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				film.director = newDirector;
 				return;
 			}
@@ -30,7 +30,7 @@ public abstract class Films{
 	
 	public static void editYear(String filmName, int newYear) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				film.year = newYear;
 				return;
 			}
@@ -39,11 +39,18 @@ public abstract class Films{
 	
 	public static Films findFilm(String filmName) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName))
 				return film;
-			}
 		}
 		return null;
+	}
+	
+	public static boolean doesFilmExists(String filmName) {
+		for(Films film : Films) {
+			if(film.name.equals(filmName))
+				return true;
+		}
+		return false;
 	}
 	
 }

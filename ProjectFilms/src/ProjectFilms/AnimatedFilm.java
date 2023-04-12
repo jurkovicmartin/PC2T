@@ -11,18 +11,18 @@ public class AnimatedFilm extends Films {
 	private int age;
 	private static List<Animator> allAnimators = new ArrayList<Animator>();
 	
-	AnimatedFilm(String name, String director, int year, int age){
+	AnimatedFilm(String name, String director, int year, int recommendedAge){
 		super.name = name;
 		super.director = director;
 		super.year = year;
-		this.age = age;
+		age = recommendedAge;
 		animators = new ArrayList<Animator>();
 		rating = new ArrayList<Rating>();
 	}
 	
 	public static void editAge(String filmName, int newAge) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				((AnimatedFilm)film).age = newAge;
 				return;
 			}	
@@ -31,7 +31,7 @@ public class AnimatedFilm extends Films {
 	
 	public static void removeFilm(String filmName) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				for(Animator animator : ((AnimatedFilm)film).animators) {
 					animator.removeFilm(film);
 				}
@@ -43,7 +43,7 @@ public class AnimatedFilm extends Films {
 	
 	public static void addRating(String filmName, int points) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				((AnimatedFilm)film).rating.add(new Rating(points));
 				return;
 			}	
@@ -52,7 +52,7 @@ public class AnimatedFilm extends Films {
 	
 	public static void addRating(String filmName, int points, String comment) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				((AnimatedFilm)film).rating.add(new Rating(points, comment));
 				return;
 			}	
@@ -61,7 +61,7 @@ public class AnimatedFilm extends Films {
 	
 	public static List<Rating> getRatings(String filmName) {
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				Collections.sort(((AnimatedFilm)film).rating);
 				return ((AnimatedFilm)film).rating;
 			}
@@ -71,17 +71,17 @@ public class AnimatedFilm extends Films {
 	
 	@Override
 	public String toString() {
-		return "\nFilm: " + name + ", Director: " + director + ", Year: " + year + "Recommended age: " + age + "\nAnimators: " + animators;
+		return "\nFilm: " + name + ", Director: " + director + ", Year: " + year + ", Recommended age: " + age + "\nAnimators: " + animators;
 	}
 	
 	public static void addAnimator(String filmName, String animatorName) {
-		if(allAnimators == null) {
+		if(allAnimators.isEmpty()) {
 			allAnimators.add(new Animator(animatorName));
 		}
 		Films tempFilm = null;
 
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				tempFilm = film;
 				break;
 			}
@@ -89,7 +89,7 @@ public class AnimatedFilm extends Films {
 
 		for(Animator animator : allAnimators) {
 
-			if(animator.getName() == animatorName) {
+			if(animator.getName().equals(animatorName)) {
 				((AnimatedFilm)tempFilm).animators.add(animator);
 				animator.addFilm(tempFilm);
 				return;
@@ -100,7 +100,7 @@ public class AnimatedFilm extends Films {
 		allAnimators.add(new Animator(animatorName));
 
 		for(Animator animator : allAnimators) {
-			if(animator.getName() == animatorName) {
+			if(animator.getName().equals(animatorName)) {
 				((AnimatedFilm)tempFilm).animators.add(animator);
 				animator.addFilm(tempFilm);
 				return;
@@ -113,7 +113,7 @@ public class AnimatedFilm extends Films {
 		Films tempFilm = null;
 
 		for(Films film : Films) {
-			if(film.name == filmName) {
+			if(film.name.equals(filmName)) {
 				tempFilm = film;
 				break;
 			}
@@ -121,7 +121,7 @@ public class AnimatedFilm extends Films {
 		
 		for(Animator animator : allAnimators) {
 
-			if(animator.getName() == animatorName) {
+			if(animator.getName().equals(animatorName)) {
 				((AnimatedFilm)tempFilm).animators.remove(animator);
 				animator.removeFilm(tempFilm);
 				return;
@@ -132,7 +132,7 @@ public class AnimatedFilm extends Films {
 	
 	public static List<Animator> getAnimators(String filmName) {
 		for(Films film : Films) {
-			if(film.name == filmName)
+			if(film.name.equals(filmName))
 				return ((AnimatedFilm)film).animators;
 		}
 		return null;

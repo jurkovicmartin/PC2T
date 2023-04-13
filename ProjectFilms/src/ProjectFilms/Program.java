@@ -24,7 +24,6 @@ public class Program {
 			System.out.println("i - Save info about film to file");
 			System.out.println("j - Import info about film from file");
 			System.out.println("0 - End program");
-			System.out.println("5 - Fill program with some films");
 			operation = sc.next();
 			
 			switch(operation) {
@@ -479,53 +478,12 @@ public class Program {
 			case "j":{
 				break;
 			}
-			case "5":{
-				Films.Films.add(new FeatureFilm("Creed", "Banderas", 2023));
-				Films.Films.add(new FeatureFilm("Transformers", "Michael Bay", 2000));
-				Films.Films.add(new FeatureFilm("John Wick", "Martyn", 2023));
-				Films.Films.add(new FeatureFilm("Tetris", "Michael", 2023));
-				FeatureFilm.addActor("Transformers", "Megan Fox");
-				FeatureFilm.addActor("Transformers", "Optimus Prime");
-				FeatureFilm.addActor("Creed", "Megan Fox");
-				FeatureFilm.addActor("Tetris", "Megan Fox");
-				FeatureFilm.addActor("Creed", "Antonio");
-				FeatureFilm.addActor("John Wick", "Antonio");
-				FeatureFilm.addRating("Creed", 3, "Good movie");
-				FeatureFilm.addRating("Creed", 5);
-				break;
-			}
 			default:{
 				System.out.println("Wrong opeartion. Insert operation again.");
 				break;
 			}
 		}
 		}
-		/*
-		// A
-		
-		// E
-		for(Films film : Films.Films) {
-			System.out.println(film);
-		}
-		// A / B
-		System.out.println("------");
-		Films.editDirector("Creed", "Orlando");
-		
-		FeatureFilm.removeActor("Transformers", "Optimus Prime");
-		// D
-		
-		// C
-		FeatureFilm.removeFilm("Tetris");
-		//F
-		System.out.println(Films.findFilm("Creed") + "\nRatings: "+ FeatureFilm.getRatings("Creed"));
-		// H
-		System.out.println("Films of Megan" + Actor.getActorsFilms("Megan Fox"));
-		// G
-		for(Actor actor : FeatureFilm.getActorsWithMoreThanOneFilm()) {
-			System.out.println("\n" + actor);
-			System.out.println(actor.getFilms());
-		}*/
-		
 	}
 
 

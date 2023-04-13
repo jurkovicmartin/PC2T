@@ -36,11 +36,9 @@ public class Actor {
 	}
 	
 	public static List<Films> getActorsFilms(String actorName){
-		for(Actor actor : FeatureFilm.getAllActors()) {
-			if(actor.name.equals(actorName)) {
-				return actor.films;
-			}
-		}
-		return null;
+		Actor actor = FeatureFilm.findActor(actorName);
+		if(actor == null)
+			return null;
+		return actor.films;
 	}
 }

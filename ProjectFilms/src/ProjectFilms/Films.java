@@ -11,30 +11,24 @@ public abstract class Films{
 	public static List<Films> Films = new ArrayList<Films>();
 	
 	public static void editName(String filmName, String newName) {
-		for(Films film : Films) {
-			if(film.name.equals(filmName)) {
-				film.name = newName;
-				return;
-			}
-		}
+		Films film = findFilm(filmName);
+		if(film == null)
+			return;
+		film.name = newName;
 	}
 	
 	public static void editDirector(String filmName, String newDirector) {
-		for(Films film : Films) {
-			if(film.name.equals(filmName)) {
-				film.director = newDirector;
-				return;
-			}
-		}
+		Films film = findFilm(filmName);
+		if(film == null)
+			return;
+		film.director = newDirector;
 	}
 	
 	public static void editYear(String filmName, int newYear) {
-		for(Films film : Films) {
-			if(film.name.equals(filmName)) {
-				film.year = newYear;
-				return;
-			}
-		}
+		Films film = findFilm(filmName);
+		if(film == null)
+			return;
+		film.year = newYear;
 	}
 	
 	public static Films findFilm(String filmName) {
@@ -45,12 +39,24 @@ public abstract class Films{
 		return null;
 	}
 	
-	public static boolean doesFilmExists(String filmName) {
-		for(Films film : Films) {
-			if(film.name.equals(filmName))
-				return true;
+	public static int removeFilm(String filmName) {
+		Films film = findFilm(filmName);
+		if(film instanceof FeatureFilm) {
+			for(Actor actor : FeatureFilm.getActors(filmName)) {
+				actor.removeFilm(film);
+			}
+			Films.remove(film);
+			return 1;
 		}
-		return false;
+		else if(film instanceof AnimatedFilm) {
+			for(Animator animator : AnimatedFilm.getAnimators(filmName)) {
+				animator.removeFilm(film);
+			}
+			Films.remove(film);
+			return 1;
+		}
+		else
+			return 0;
 	}
 	
 }

@@ -1,0 +1,32 @@
+package ProjectFilms;
+
+public class FeaturedRating implements Comparable<FeaturedRating>{
+
+	private int stars;
+	private String comment;
+	
+	FeaturedRating(int stars){
+		this.stars = stars;
+	}
+	FeaturedRating(int stars, String comment){
+		this.stars = stars;
+		this.comment = comment;
+	}
+	
+	public int getStars() {
+		return stars;
+	}
+	
+	@Override
+	public String toString() {
+		return "\nStars: " + stars + "/5 , Comment: " + comment;
+	}
+	@Override
+	public int compareTo(FeaturedRating o) {
+		if(this.stars == o.stars)
+			return 0;
+		if(this.stars < o.stars)
+			return 1;
+		return -1;
+	}
+}

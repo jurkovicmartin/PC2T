@@ -7,6 +7,12 @@ public class Program {
 
 	public static void main(String[] args) {
 		
+		
+		Films.Films.add(new FeatureFilm("Creed", "Bay", 2000));
+		FeatureFilm.addActor("Creed", "Jordan");
+		FeatureFilm.addActor("Creed", "Stalone");
+		FeatureFilm.addRating("Creed" ,5 , "Great");
+		FeatureFilm.addRating("Creed" ,3 , "Good");
 		//nacteni dat z databaze
 		Scanner sc = new Scanner(System.in);
 		String operation;
@@ -384,11 +390,11 @@ public class Program {
 						if(comment.equals("yes")) {
 							System.out.println("Insert commenatary: ");
 							comment = sc.nextLine();
-							FeatureFilm.addRating(name, points, comment);
+							AnimatedFilm.addRating(name, points, comment);
 							break;
 						}
 						else if(comment.equals("no")) {
-							FeatureFilm.addRating(name, points);
+							AnimatedFilm.addRating(name, points);
 							break;
 						}
 						else
@@ -475,9 +481,83 @@ public class Program {
 					break;
 				}
 			}
-			case "j":{
-				break;
+			
+			case "i":{
+				System.out.println("Insert name of film");
+				System.out.println("(Insert 0 to go back)");
+				sc.nextLine();
+				String name = sc.nextLine();
+				if(name.equals("0"))
+					break;
+				Films film = Films.findFilm(name);
+				if(film instanceof FeatureFilm) {
+					FeatureFilm featureFilm = (FeatureFilm) film;
+			        System.out.println("Insert file name:");
+			        String fileName = sc.nextLine();
+			        if(featureFilm.saveToFeatureFile(fileName) > 0)
+			        	System.out.println("Films was saved");
+			        else
+			        	System.out.println("Error with saving");
+			        break;
+				}
+				else if (film instanceof AnimatedFilm) {
+					AnimatedFilm animatedFilm = (AnimatedFilm) film;
+			        System.out.println("Insert file name:");
+			        String fileName = sc.nextLine();
+			        if(animatedFilm.saveToAnimatedFile(fileName) > 0)
+			        	System.out.println("Films was saved");
+			        else
+			        	System.out.println("Error with saving");
+			        break;
+
+				}
+				else { // pro null => film neexistuje
+					System.out.println("Film with this name does not exist");
+					break;
+				}
 			}
+			case "j":{
+				boolean run = true;
+				String choice;
+				while(run) {
+					System.out.println("Choose film");
+					System.out.println("1 - Feature film");
+					System.out.println("2 - Animated film");
+					System.out.println("0 - Go back");
+					choice = sc.next();
+					switch(choice) {
+					case "1":{
+						System.out.println("Insert name of file");
+						sc.nextLine();
+						String filename = sc.nextLine();
+						if(FeatureFilm.loadFromFeatureFile(filename) == 1)
+							System.out.println("Film has been loaded");
+						else
+							System.out.println("Error with loading");
+					    break;
+					}
+					case "2":{
+						System.out.println("Insert name of file");
+						sc.nextLine();
+						String filename = sc.nextLine();
+						if(AnimatedFilm.loadFromAnimatedFile(filename) == 1)
+							System.out.println("Film has been loaded");
+						else
+							System.out.println("Error with loading");
+					    break;
+					}
+					case "0":{
+						run = false;
+						break;
+					}
+					default:
+					 System.out.println("Wrong opeartion. Insert operation again.");
+					 break;
+				    }
+				}
+				break;
+			}	
+			
 			default:{
 				System.out.println("Wrong opeartion. Insert operation again.");
 				break;

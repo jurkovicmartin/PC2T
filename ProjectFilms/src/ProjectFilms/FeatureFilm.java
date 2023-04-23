@@ -1,5 +1,10 @@
 package ProjectFilms;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -102,6 +107,89 @@ public class FeatureFilm extends Films{
 			return null;
 		Collections.sort(((FeatureFilm)film).ratings);
 		return ((FeatureFilm)film).ratings;
+	}
+	
+	
+	public int saveToFeatureFile(String fileName) {
+	    try {
+	        FileWriter fw = new FileWriter(fileName);
+	        BufferedWriter bw = new BufferedWriter(fw);
+	        bw.write(name + ";" + director + ";" + year + ";");
+	        for (int i = 0; i < actors.size(); i++) {
+	            bw.write(actors.get(i).getName());
+	            if (i < actors.size() - 1) {
+	                bw.write(",");
+	            }
+	        }
+	        bw.write(";");
+	        List<FeatureRating> ratings = getRatings(this.name);
+	        for (int i = 0; i < ratings.size(); i++) {
+	            bw.write(ratings.get(i).getStars() + "#");
+	            String comment = ratings.get(i).getComment();
+	            if(comment == null) {
+	            	bw.write(" ");
+	            }
+	            else {
+	            	bw.write(comment);
+	            }
+	            if (i < ratings.size() - 1) {
+	                bw.write("$");
+	            }
+	        }
+	        bw.write(";");
+	        bw.close();
+	        return 1;
+	    } catch (IOException e) {
+	        return 0;
+	    }
+	}
+	
+	public static int loadFromFeatureFile(String fileName) {
+	    FeatureFilm featureFilm = null;
+	    try {
+	        FileReader fr = new FileReader(fileName);
+	        BufferedReader br = new BufferedReader(fr);
+	        String line = br.readLine();
+	        String[] parts = line.split(";");
+	        String name = parts[0];
+	        if(findFilm(name) != null) {
+	        	br.close();
+	        	return 0;
+	        }
+	        String director = parts[1];
+	        int year = Integer.parseInt(parts[2]);
+	        featureFilm = new FeatureFilm(name, director, year);
+	        Films.add(featureFilm);
+	        String[] actorNames = parts[3].split(",");
+	        for (String actorName : actorNames) {
+	            Actor actor = FeatureFilm.findActor(actorName);
+	            if (actor == null) {
+	                actor = new Actor(actorName);
+	                FeatureFilm.getAllActors().add(actor);
+	                featureFilm.actors.add(actor);
+	                actor.addFilm(featureFilm);
+	            }
+	        }
+	        String[] ratings = parts[4].split("\\$");
+	        
+	        String[] ratingParts;
+	        for (String rating : ratings) {
+	        	 ratingParts = rating.split("#");
+	        	if(ratingParts[1].equals(" "))
+	        		featureFilm.ratings.add(new FeatureRating(Integer.parseInt(ratingParts[0])));
+	        	else
+	        	featureFilm.ratings.add(new FeatureRating(Integer.parseInt(ratingParts[0]),ratingParts[1]));
+	        }
+
+	        br.close();
+	        return 1;
+	    } 
+	    catch (IOException e) {
+	        return 0;
+	    }
+	    catch (ArrayIndexOutOfBoundsException e) { // trying import animated film
+	    	return 0;
+	    }
 	}
 
 }

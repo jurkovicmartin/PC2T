@@ -17,6 +17,10 @@ public class FeatureRating implements Comparable<FeatureRating>{
 		return stars;
 	}
 	
+	public String getComment() {
+		return comment;
+	}
+	
 	@Override
 	public String toString() {
 		if(comment == null)

@@ -17,6 +17,10 @@ public class AnimatedRating implements Comparable<AnimatedRating>{
 		return points;
 	}
 	
+	public String getComment() {
+		return comment;
+	}
+	
 	@Override
 	public String toString() {
 		if(comment == null)

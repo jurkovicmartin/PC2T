@@ -1,5 +1,10 @@
 package ProjectFilms;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -110,4 +115,86 @@ public class AnimatedFilm extends Films {
 		return ((AnimatedFilm)film).ratings;
 	}
 	
+	public int saveToAnimatedFile(String fileName) {
+	    try {
+	        FileWriter fw = new FileWriter(fileName);
+	        BufferedWriter bw = new BufferedWriter(fw);
+	        bw.write(name + ";" + director + ";" + year + ";" + age + ";");
+	        for (int i = 0; i < animators.size(); i++) {
+	            bw.write(animators.get(i).getName());
+	            if (i < animators.size() - 1) {
+	                bw.write(",");
+	            }
+	        }
+	        bw.write(";");
+	        List<AnimatedRating> ratings = getRatings(this.name);
+	        for (int i = 0; i < ratings.size(); i++) {
+	            bw.write(ratings.get(i).getPoints() + "#");
+	            String comment = ratings.get(i).getComment();
+	            if(comment == null) {
+	            	bw.write(" ");
+	            }
+	            else {
+	            	bw.write(comment);
+	            }
+	            if (i < ratings.size() - 1) {
+	                bw.write("$");
+	            }
+	        }
+	        bw.write(";");
+	        bw.close();
+	        return 1;
+	    } catch (IOException e) {
+	        return 0;
+	    }
+	}
+	
+	public static int loadFromAnimatedFile(String fileName) {
+	    AnimatedFilm animatedFilm = null;
+	    try {
+	        FileReader fr = new FileReader(fileName);
+	        BufferedReader br = new BufferedReader(fr);
+	        String line = br.readLine();
+	        String[] parts = line.split(";");
+	        String name = parts[0];
+	        if(findFilm(name) != null) {
+	        	br.close();
+	        	return 0;
+	        }
+	        String director = parts[1];
+	        int year = Integer.parseInt(parts[2]);
+	        int age = Integer.parseInt(parts[3]);
+	        animatedFilm = new AnimatedFilm(name, director, year, age);
+	        Films.add(animatedFilm);
+	        String[] animatorNames = parts[4].split(",");
+	        for (String animatorName : animatorNames) {
+	            Animator animator = AnimatedFilm.findAnimator(animatorName);
+	            if (animator == null) {
+	                animator = new Animator(animatorName);
+	                AnimatedFilm.getAllAnimators().add(animator);
+	                animatedFilm.animators.add(animator);
+	                animator.addFilm(animatedFilm);
+	            }
+	        }
+	        String[] ratings = parts[5].split("\\$");
+	        
+	        String[] ratingParts;
+	        for (String rating : ratings) {
+	        	 ratingParts = rating.split("#");
+	        	if(ratingParts[1].equals(" "))
+	        		animatedFilm.ratings.add(new AnimatedRating(Integer.parseInt(ratingParts[0])));
+	        	else
+	        	animatedFilm.ratings.add(new AnimatedRating(Integer.parseInt(ratingParts[0]),ratingParts[1]));
+	        }
+
+	        br.close();
+	        return 1;
+	    } 
+	    catch (IOException e) {
+	        return 0;
+	    }
+	    catch (ArrayIndexOutOfBoundsException e) { // trying import featured film
+	    	return 0;
+	    }
+	}
 }

@@ -10,6 +10,18 @@ public abstract class Films{
 	protected int year;
 	public static List<Films> Films = new ArrayList<Films>();
 	
+	public String getName() {
+		return name;
+	}
+	
+	public String getDirector() {
+		return director;
+	}
+	
+	public int getYear() {
+		return year;
+	}
+	
 	public static void editName(String filmName, String newName) {
 		Films film = findFilm(filmName);
 		if(film == null)

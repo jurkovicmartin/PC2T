@@ -1,0 +1,28 @@
+package ProjectFilms;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBConnection {
+	private static Connection dbConn;
+    private DBConnection() {}
+    public static Connection getDbConn() {
+        String url = "jdbc:sqlserver://localhost;DatabaseName=Films;encrypt=true;trustServerCertificate=true;";
+        if(dbConn == null) {
+            try {
+                dbConn = DriverManager.getConnection(url);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dbConn;
+    }
+    public static void closeConnection() {
+        try {
+            dbConn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

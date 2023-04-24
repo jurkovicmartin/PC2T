@@ -6,4 +6,5 @@
  *
  */
 module ProjectFilms {
+	requires java.sql;
 }

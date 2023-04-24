@@ -7,13 +7,8 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		
-		Films.Films.add(new FeatureFilm("Creed", "Bay", 2000));
-		FeatureFilm.addActor("Creed", "Jordan");
-		FeatureFilm.addActor("Creed", "Stalone");
-		FeatureFilm.addRating("Creed" ,5 , "Great");
-		FeatureFilm.addRating("Creed" ,3 , "Good");
-		//nacteni dat z databaze
+		DBControl.loadFilms();
+
 		Scanner sc = new Scanner(System.in);
 		String operation;
 		
@@ -33,10 +28,6 @@ public class Program {
 			operation = sc.next();
 			
 			switch(operation) {
-			case "0":{
-				//ulozeni dat do databaze
-				return;
-			}
 			case "a":{	
 				boolean run = true;
 				String choice;
@@ -433,7 +424,7 @@ public class Program {
 					System.out.println(Films.findFilm(name) + "\nRatings: " + FeatureFilm.getRatings(name));
 					break;
 				}
-				else { // pro null => film neexistuje
+				else {
 					System.out.println("Film with this name does not exist");
 					break;
 				}
@@ -511,7 +502,7 @@ public class Program {
 			        break;
 
 				}
-				else { // pro null => film neexistuje
+				else {
 					System.out.println("Film with this name does not exist");
 					break;
 				}
@@ -557,7 +548,12 @@ public class Program {
 				}
 				break;
 			}	
-			
+			case "0":{
+				sc.close();
+				DBControl.clearFilms();
+				DBControl.saveFilms();
+				return;
+			}
 			default:{
 				System.out.println("Wrong opeartion. Insert operation again.");
 				break;
@@ -570,10 +566,13 @@ public class Program {
 
 	public static int scanIntNumber(String msg) {
 		Scanner sc = new Scanner(System.in);
+		int output;
 		while(true) {
 			System.out.println(msg);
 			if(sc.hasNextInt()) {
-				return sc.nextInt();
+				output = sc.nextInt();
+				sc.close();
+				return output;
 			}
 			System.out.println("Wrong input. Insert number");
 			sc.next();

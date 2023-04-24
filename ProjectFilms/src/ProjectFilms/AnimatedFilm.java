@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AnimatedFilm extends Films {
+public class AnimatedFilm extends Films{
 	
 	private List<Animator> animators;
 	private List<AnimatedRating> ratings;
@@ -23,6 +23,18 @@ public class AnimatedFilm extends Films {
 		age = recommendedAge;
 		animators = new ArrayList<Animator>();
 		ratings = new ArrayList<AnimatedRating>();
+	}
+	
+	public int getAge() {
+		return age;
+	}
+	
+	public List<Animator> getAnimators(){
+		return animators;
+	}
+	
+	public List<AnimatedRating> getRatings(){
+		return ratings;
 	}
 	
 	public static Animator findAnimator(String animatorName) {
@@ -117,7 +129,7 @@ public class AnimatedFilm extends Films {
 	
 	public int saveToAnimatedFile(String fileName) {
 	    try {
-	        FileWriter fw = new FileWriter(fileName);
+	        FileWriter fw = new FileWriter("files/" + fileName);
 	        BufferedWriter bw = new BufferedWriter(fw);
 	        bw.write(name + ";" + director + ";" + year + ";" + age + ";");
 	        for (int i = 0; i < animators.size(); i++) {
@@ -128,9 +140,10 @@ public class AnimatedFilm extends Films {
 	        }
 	        bw.write(";");
 	        List<AnimatedRating> ratings = getRatings(this.name);
+	        String comment;
 	        for (int i = 0; i < ratings.size(); i++) {
 	            bw.write(ratings.get(i).getPoints() + "#");
-	            String comment = ratings.get(i).getComment();
+	            comment = ratings.get(i).getComment();
 	            if(comment == null) {
 	            	bw.write(" ");
 	            }
@@ -152,7 +165,7 @@ public class AnimatedFilm extends Films {
 	public static int loadFromAnimatedFile(String fileName) {
 	    AnimatedFilm animatedFilm = null;
 	    try {
-	        FileReader fr = new FileReader(fileName);
+	        FileReader fr = new FileReader("files/" + fileName);
 	        BufferedReader br = new BufferedReader(fr);
 	        String line = br.readLine();
 	        String[] parts = line.split(";");
@@ -168,13 +181,7 @@ public class AnimatedFilm extends Films {
 	        Films.add(animatedFilm);
 	        String[] animatorNames = parts[4].split(",");
 	        for (String animatorName : animatorNames) {
-	            Animator animator = AnimatedFilm.findAnimator(animatorName);
-	            if (animator == null) {
-	                animator = new Animator(animatorName);
-	                AnimatedFilm.getAllAnimators().add(animator);
-	                animatedFilm.animators.add(animator);
-	                animator.addFilm(animatedFilm);
-	            }
+	            addAnimator(name, animatorName);
 	        }
 	        String[] ratings = parts[5].split("\\$");
 	        
@@ -182,9 +189,9 @@ public class AnimatedFilm extends Films {
 	        for (String rating : ratings) {
 	        	 ratingParts = rating.split("#");
 	        	if(ratingParts[1].equals(" "))
-	        		animatedFilm.ratings.add(new AnimatedRating(Integer.parseInt(ratingParts[0])));
+	        		addRating(name, Integer.parseInt(ratingParts[0]));
 	        	else
-	        	animatedFilm.ratings.add(new AnimatedRating(Integer.parseInt(ratingParts[0]),ratingParts[1]));
+	        		addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
 	        }
 
 	        br.close();
@@ -193,7 +200,7 @@ public class AnimatedFilm extends Films {
 	    catch (IOException e) {
 	        return 0;
 	    }
-	    catch (ArrayIndexOutOfBoundsException e) { // trying import featured film
+	    catch (ArrayIndexOutOfBoundsException e) {
 	    	return 0;
 	    }
 	}

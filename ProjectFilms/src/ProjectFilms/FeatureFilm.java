@@ -15,13 +15,20 @@ public class FeatureFilm extends Films{
 	private List<FeatureRating> ratings;
 	private static List<Actor> allActors = new ArrayList<Actor>();
 	
-	//vytvoreni filmu
 	FeatureFilm(String name, String director, int year){
 		super.name = name;
 		super.director = director;
 		super.year = year;
 		actors = new ArrayList<Actor>();
 		ratings = new ArrayList<FeatureRating>();
+	}
+	
+	public List<Actor> getActors(){
+		return actors;
+	}
+	
+	public List<FeatureRating> getRatings(){
+		return ratings;
 	}
 	
 	public static Actor findActor(String actorName) {
@@ -112,7 +119,7 @@ public class FeatureFilm extends Films{
 	
 	public int saveToFeatureFile(String fileName) {
 	    try {
-	        FileWriter fw = new FileWriter(fileName);
+	        FileWriter fw = new FileWriter("files/" + fileName);
 	        BufferedWriter bw = new BufferedWriter(fw);
 	        bw.write(name + ";" + director + ";" + year + ";");
 	        for (int i = 0; i < actors.size(); i++) {
@@ -123,9 +130,10 @@ public class FeatureFilm extends Films{
 	        }
 	        bw.write(";");
 	        List<FeatureRating> ratings = getRatings(this.name);
+	        String comment;
 	        for (int i = 0; i < ratings.size(); i++) {
 	            bw.write(ratings.get(i).getStars() + "#");
-	            String comment = ratings.get(i).getComment();
+	             comment = ratings.get(i).getComment();
 	            if(comment == null) {
 	            	bw.write(" ");
 	            }
@@ -147,7 +155,7 @@ public class FeatureFilm extends Films{
 	public static int loadFromFeatureFile(String fileName) {
 	    FeatureFilm featureFilm = null;
 	    try {
-	        FileReader fr = new FileReader(fileName);
+	        FileReader fr = new FileReader("files/" + fileName);
 	        BufferedReader br = new BufferedReader(fr);
 	        String line = br.readLine();
 	        String[] parts = line.split(";");
@@ -162,13 +170,7 @@ public class FeatureFilm extends Films{
 	        Films.add(featureFilm);
 	        String[] actorNames = parts[3].split(",");
 	        for (String actorName : actorNames) {
-	            Actor actor = FeatureFilm.findActor(actorName);
-	            if (actor == null) {
-	                actor = new Actor(actorName);
-	                FeatureFilm.getAllActors().add(actor);
-	                featureFilm.actors.add(actor);
-	                actor.addFilm(featureFilm);
-	            }
+	                addActor(name, actorName);
 	        }
 	        String[] ratings = parts[4].split("\\$");
 	        
@@ -176,9 +178,9 @@ public class FeatureFilm extends Films{
 	        for (String rating : ratings) {
 	        	 ratingParts = rating.split("#");
 	        	if(ratingParts[1].equals(" "))
-	        		featureFilm.ratings.add(new FeatureRating(Integer.parseInt(ratingParts[0])));
+	        		addRating(name, Integer.parseInt(ratingParts[0]));
 	        	else
-	        	featureFilm.ratings.add(new FeatureRating(Integer.parseInt(ratingParts[0]),ratingParts[1]));
+	        		addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
 	        }
 
 	        br.close();
@@ -187,7 +189,7 @@ public class FeatureFilm extends Films{
 	    catch (IOException e) {
 	        return 0;
 	    }
-	    catch (ArrayIndexOutOfBoundsException e) { // trying import animated film
+	    catch (ArrayIndexOutOfBoundsException e) {
 	    	return 0;
 	    }
 	}

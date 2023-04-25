@@ -7,6 +7,7 @@ public class Program {
 
 	public static void main(String[] args) {
 		
+		//DBControl.createDatabase();
 		DBControl.loadFilms();
 
 		Scanner sc = new Scanner(System.in);
@@ -58,10 +59,6 @@ public class Program {
 								while(true) {
 									System.out.println("Insert actors name: ");
 									actor = sc.nextLine();
-									if(FeatureFilm.findActor(actor) != null) {
-										System.out.println("This actor was already added");
-										continue;
-									}
 									FeatureFilm.addActor(name, actor);
 									while(true) {
 										System.out.println("Want to add another ?");
@@ -106,10 +103,6 @@ public class Program {
 								while(true) {
 									System.out.println("Insert animators name: ");
 									animator = sc.nextLine();
-									if(AnimatedFilm.findAnimator(animator) != null) {
-										System.out.println("This animator was already added");
-										continue;
-									}
 									AnimatedFilm.addAnimator(name, animator);
 									while(true) {
 										System.out.println("Want to add another ?");
@@ -307,6 +300,7 @@ public class Program {
 			case "c":{
 				System.out.println("Insert name of film");
 				System.out.println("(Insert 0 to go back)");
+				sc.nextLine();
 				String name = sc.nextLine();
 				if(name.equals("0"))
 					break;
@@ -421,7 +415,7 @@ public class Program {
 					break;
 				}
 				else if (film instanceof AnimatedFilm) {
-					System.out.println(Films.findFilm(name) + "\nRatings: " + FeatureFilm.getRatings(name));
+					System.out.println(Films.findFilm(name) + "\nRatings: " + AnimatedFilm.getRatings(name));
 					break;
 				}
 				else {
@@ -430,6 +424,7 @@ public class Program {
 				}
 			}
 			case "g":{
+				System.out.println("Actors / animators with more than 1 film: ");
 				for(Actor actor : FeatureFilm.getActorsWithMoreThanOneFilm()) {
 					System.out.println("\n" + actor);
 					System.out.println(actor.getFilms());
@@ -566,13 +561,10 @@ public class Program {
 
 	public static int scanIntNumber(String msg) {
 		Scanner sc = new Scanner(System.in);
-		int output;
 		while(true) {
 			System.out.println(msg);
 			if(sc.hasNextInt()) {
-				output = sc.nextInt();
-				sc.close();
-				return output;
+				return sc.nextInt();
 			}
 			System.out.println("Wrong input. Insert number");
 			sc.next();

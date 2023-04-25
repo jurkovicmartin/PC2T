@@ -132,27 +132,37 @@ public class AnimatedFilm extends Films{
 	        FileWriter fw = new FileWriter("files/" + fileName);
 	        BufferedWriter bw = new BufferedWriter(fw);
 	        bw.write(name + ";" + director + ";" + year + ";" + age + ";");
-	        for (int i = 0; i < animators.size(); i++) {
-	            bw.write(animators.get(i).getName());
-	            if (i < animators.size() - 1) {
-	                bw.write(",");
-	            }
+	        if(animators.isEmpty()) {
+	        	bw.write("0");
+	        }
+	        else {
+	        	for (int i = 0; i < animators.size(); i++) {
+		            bw.write(animators.get(i).getName());
+		            if (i < animators.size() - 1) {
+		                bw.write(",");
+		            }
+		        }
 	        }
 	        bw.write(";");
 	        List<AnimatedRating> ratings = getRatings(this.name);
-	        String comment;
-	        for (int i = 0; i < ratings.size(); i++) {
-	            bw.write(ratings.get(i).getPoints() + "#");
-	            comment = ratings.get(i).getComment();
-	            if(comment == null) {
-	            	bw.write(" ");
-	            }
-	            else {
-	            	bw.write(comment);
-	            }
-	            if (i < ratings.size() - 1) {
-	                bw.write("$");
-	            }
+	        if(ratings.isEmpty()) {
+				bw.write("0# ");
+			}
+	        else {
+	        	String comment;
+		        for (int i = 0; i < ratings.size(); i++) {
+		            bw.write(ratings.get(i).getPoints() + "#");
+		            comment = ratings.get(i).getComment();
+		            if(comment == null) {
+		            	bw.write(" ");
+		            }
+		            else {
+		            	bw.write(comment);
+		            }
+		            if (i < ratings.size() - 1) {
+		                bw.write("$");
+		            }
+		        }
 	        }
 	        bw.write(";");
 	        bw.close();
@@ -181,17 +191,20 @@ public class AnimatedFilm extends Films{
 	        Films.add(animatedFilm);
 	        String[] animatorNames = parts[4].split(",");
 	        for (String animatorName : animatorNames) {
-	            addAnimator(name, animatorName);
+	        	if(!animatorName.equals("0"))
+	        		addAnimator(name, animatorName);
 	        }
 	        String[] ratings = parts[5].split("\\$");
 	        
 	        String[] ratingParts;
 	        for (String rating : ratings) {
 	        	 ratingParts = rating.split("#");
-	        	if(ratingParts[1].equals(" "))
-	        		addRating(name, Integer.parseInt(ratingParts[0]));
-	        	else
-	        		addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
+	        	 if(!ratingParts[0].equals("0")) {
+	        		 if(ratingParts[1].equals(" "))
+	 	        		addRating(name, Integer.parseInt(ratingParts[0]));
+	 	        	else
+	 	        		addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
+	        	 }
 	        }
 
 	        br.close();

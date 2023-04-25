@@ -122,27 +122,37 @@ public class FeatureFilm extends Films{
 	        FileWriter fw = new FileWriter("files/" + fileName);
 	        BufferedWriter bw = new BufferedWriter(fw);
 	        bw.write(name + ";" + director + ";" + year + ";");
-	        for (int i = 0; i < actors.size(); i++) {
-	            bw.write(actors.get(i).getName());
-	            if (i < actors.size() - 1) {
-	                bw.write(",");
-	            }
+	        if(actors.isEmpty()) {
+	        	bw.write("0");
+	        }
+	        else {
+	        	for (int i = 0; i < actors.size(); i++) {
+		            bw.write(actors.get(i).getName());
+		            if (i < actors.size() - 1) {
+		                bw.write(",");
+		            }
+	        	}
 	        }
 	        bw.write(";");
 	        List<FeatureRating> ratings = getRatings(this.name);
-	        String comment;
-	        for (int i = 0; i < ratings.size(); i++) {
-	            bw.write(ratings.get(i).getStars() + "#");
-	             comment = ratings.get(i).getComment();
-	            if(comment == null) {
-	            	bw.write(" ");
-	            }
-	            else {
-	            	bw.write(comment);
-	            }
-	            if (i < ratings.size() - 1) {
-	                bw.write("$");
-	            }
+	        if(ratings.isEmpty()) {
+				bw.write("0# ");
+			}
+	        else {
+	        	String comment;
+		        for (int i = 0; i < ratings.size(); i++) {
+		            bw.write(ratings.get(i).getStars() + "#");
+		             comment = ratings.get(i).getComment();
+		            if(comment == null) {
+		            	bw.write(" ");
+		            }
+		            else {
+		            	bw.write(comment);
+		            }
+		            if (i < ratings.size() - 1) {
+		                bw.write("$");
+		            }
+		        }
 	        }
 	        bw.write(";");
 	        bw.close();
@@ -170,6 +180,7 @@ public class FeatureFilm extends Films{
 	        Films.add(featureFilm);
 	        String[] actorNames = parts[3].split(",");
 	        for (String actorName : actorNames) {
+	        	if(!actorName.equals("0"))
 	                addActor(name, actorName);
 	        }
 	        String[] ratings = parts[4].split("\\$");
@@ -177,10 +188,12 @@ public class FeatureFilm extends Films{
 	        String[] ratingParts;
 	        for (String rating : ratings) {
 	        	 ratingParts = rating.split("#");
-	        	if(ratingParts[1].equals(" "))
-	        		addRating(name, Integer.parseInt(ratingParts[0]));
-	        	else
-	        		addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
+	        	 if(!ratingParts[0].equals("0")) {
+	 	        	if(ratingParts[1].equals(" "))
+	 	        		addRating(name, Integer.parseInt(ratingParts[0]));
+	 	        	else
+	 	        		addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
+	        	 }
 	        }
 
 	        br.close();

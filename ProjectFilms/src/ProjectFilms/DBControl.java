@@ -51,31 +51,43 @@ public class DBControl {
 		}
 		
 		String insert = "INSERT INTO featurefilms " + "(name, director , year, actors, ratings)" + "VALUES(?,?,?,?,?)";
-		String actors = "";
-		String ratings = "";
+		String actors;
+		String ratings;
 		String comment;
 		for(Films featurefilm : featureFilms) {
+			actors = "";
+			ratings = "";
 			
-			for (int i = 0; i < ((FeatureFilm)featurefilm).getActors().size(); i++) {
-	            actors += ((FeatureFilm)featurefilm).getActors().get(i).getName();
-	            if (i < ((FeatureFilm)featurefilm).getActors().size() - 1) {
-	                actors += ",";
-	            }
+			if(((FeatureFilm)featurefilm).getActors().isEmpty()) {
+				actors = "0";
+			}
+			else {
+				for (int i = 0; i < ((FeatureFilm)featurefilm).getActors().size(); i++) {
+		            actors += ((FeatureFilm)featurefilm).getActors().get(i).getName();
+		            if (i < ((FeatureFilm)featurefilm).getActors().size() - 1) {
+		                actors += ",";
+		            }
+				}
 			}
 			
-			for (int i = 0; i < ((FeatureFilm)featurefilm).getRatings().size(); i++) {
-	            ratings += (((FeatureFilm)featurefilm).getRatings().get(i).getStars() + "#");
-	            comment = (((FeatureFilm)featurefilm).getRatings().get(i).getComment());
-	            if(comment == null) {
-	            	ratings += " ";
-	            }
-	            else {
-	            	ratings += comment;
-	            }
-	            if (i < (((FeatureFilm)featurefilm).getRatings().size() - 1)) {
-	                ratings += "$";
-	            }
-	        }
+			if(((FeatureFilm)featurefilm).getRatings().isEmpty()) {
+				ratings = "0# ";
+			}
+			else {
+				for (int i = 0; i < ((FeatureFilm)featurefilm).getRatings().size(); i++) {
+		            ratings += (((FeatureFilm)featurefilm).getRatings().get(i).getStars() + "#");
+		            comment = (((FeatureFilm)featurefilm).getRatings().get(i).getComment());
+		            if(comment == null) {
+		            	ratings += " ";
+		            }
+		            else {
+		            	ratings += comment;
+		            }
+		            if (i < (((FeatureFilm)featurefilm).getRatings().size() - 1)) {
+		                ratings += "$";
+		            }
+		        }
+			}
 			
 				try (PreparedStatement prStmt = conn.prepareStatement(insert)) {
 				      prStmt.setString(1, featurefilm.getName());
@@ -93,29 +105,41 @@ public class DBControl {
 		
 		
 		insert = "INSERT INTO animatedfilms " + "(name, director , year, age, animators, ratings)" + "VALUES(?,?,?,?,?,?)";
-		String animators = "";
+		String animators;
 		for(Films animatedfilm : animatedFilms) {
+			animators = "";
+			ratings = "";
 			
-			for (int i = 0; i < ((AnimatedFilm)animatedfilm).getAnimators().size(); i++) {
-	            animators += ((AnimatedFilm)animatedfilm).getAnimators().get(i).getName();
-	            if (i < ((AnimatedFilm)animatedfilm).getAnimators().size() - 1) {
-	                animators += ",";
-	            }
+			if(((AnimatedFilm)animatedfilm).getAnimators().isEmpty()) {
+				animators = "0";
+			}
+			else {
+				for (int i = 0; i < ((AnimatedFilm)animatedfilm).getAnimators().size(); i++) {
+		            animators += ((AnimatedFilm)animatedfilm).getAnimators().get(i).getName();
+		            if (i < ((AnimatedFilm)animatedfilm).getAnimators().size() - 1) {
+		                animators += ",";
+		            }
+				}
 			}
 			
-			for (int i = 0; i < ((AnimatedFilm)animatedfilm).getRatings().size(); i++) {
-	            ratings += (((AnimatedFilm)animatedfilm).getRatings().get(i).getPoints() + "#");
-	            comment = (((AnimatedFilm)animatedfilm).getRatings().get(i).getComment());
-	            if(comment == null) {
-	            	ratings += " ";
-	            }
-	            else {
-	            	ratings += comment;
-	            }
-	            if (i < (((AnimatedFilm)animatedfilm).getRatings().size() - 1)) {
-	                ratings += "$";
-	            }
-	        }
+			if(((AnimatedFilm)animatedfilm).getRatings().isEmpty()) {
+				ratings = "0# ";
+			}
+			else {
+				for (int i = 0; i < ((AnimatedFilm)animatedfilm).getRatings().size(); i++) {
+		            ratings += (((AnimatedFilm)animatedfilm).getRatings().get(i).getPoints() + "#");
+		            comment = (((AnimatedFilm)animatedfilm).getRatings().get(i).getComment());
+		            if(comment == null) {
+		            	ratings += " ";
+		            }
+		            else {
+		            	ratings += comment;
+		            }
+		            if (i < (((AnimatedFilm)animatedfilm).getRatings().size() - 1)) {
+		                ratings += "$";
+		            }
+		        }
+			}
 			
 				try (PreparedStatement prStmt = conn.prepareStatement(insert)) {
 				      prStmt.setString(1, animatedfilm.getName());
@@ -173,20 +197,22 @@ public class DBControl {
 	            
 	            actorNames = actorString.split(",");
 		        for (String actorName : actorNames) {
+		        	if(!actorName.equals("0"))
 		                FeatureFilm.addActor(name, actorName);
 		        }
-		        
 		        ratings = ratingString.split("\\$");
 		        for (String rating : ratings) {
 		        	 ratingParts = rating.split("#");
-		        	if(ratingParts[1].equals(" "))
-		        		FeatureFilm.addRating(name, Integer.parseInt(ratingParts[0]));
-		        	else
-		        		FeatureFilm.addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
+		        	 if(!ratingParts[0].equals("0")) {
+		        		 if(ratingParts[1].equals(" "))
+				        		FeatureFilm.addRating(name, Integer.parseInt(ratingParts[0]));
+				        	else
+				        		FeatureFilm.addRating(name, Integer.parseInt(ratingParts[0]), ratingParts[1]);
+		        	 }
 		        }
 	        }
 		} catch (SQLException e) {
-			e.printStackTrace();
+			createDatabase();
 		}
 		
 		select = "SELECT * FROM animatedfilms";
@@ -209,6 +235,7 @@ public class DBControl {
 	            
 	            animatorNames = animatorString.split(",");
 		        for (String animatorName : animatorNames) {
+		        	if(!animatorName.equals("0"));
 		                AnimatedFilm.addAnimator(name, animatorName);
 		        }
 		        

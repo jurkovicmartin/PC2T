@@ -7,7 +7,6 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		//DBControl.createDatabase();
 		DBControl.loadFilms();
 
 		Scanner sc = new Scanner(System.in);

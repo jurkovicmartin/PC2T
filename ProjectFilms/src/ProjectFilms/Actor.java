@@ -8,7 +8,6 @@ public class Actor {
 	private String name;
 	private List<Films> films;
 	
-	// novy herec
 	Actor(String actorName){
 		name = actorName;
 		films = new ArrayList<Films>();
